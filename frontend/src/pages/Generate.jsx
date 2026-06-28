@@ -1,7 +1,40 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-
+import { useState } from "react";
+import api from "../services/api";
 function Generate({ darkMode, setDarkMode }) {
+  const [productName, setProductName] = useState("");
+  const [category, setCategory] = useState("");
+  const [keyFeatures, setKeyFeatures] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const handleGenerate = async () => {
+      try {
+        setLoading(true);
+        setError("");
+        const res = await api.post("/generate", {
+          productName,
+          category,
+          keyFeatures: keyFeatures
+            .split(",")
+            .map((item) => item.trim()),
+        });
+        setDescription(res.data.description);
+        await api.post("/history", {
+          productName,
+          category,
+          keyFeatures: keyFeatures
+            .split(",")
+            .map((item) => item.trim()),
+          description: res.data.description,
+        });
+      } catch (err) {
+        setError("Failed to generate description.");
+      } finally {
+        setLoading(false);
+      }
+    };
   const cardStyle = {
     backgroundColor: darkMode ? "#1e293b" : "white",
     color: darkMode ? "white" : "black",
@@ -66,6 +99,9 @@ function Generate({ darkMode, setDarkMode }) {
                 placeholder="Enter product name"
                 style={inputStyle}
                 className="w-full rounded-lg px-4 py-2 focus:outline-none"
+                value={productName}
+                onChange={(e) => setProductName(e.target.value)}
+
               />
             </div>
 
@@ -84,6 +120,8 @@ function Generate({ darkMode, setDarkMode }) {
                 placeholder="Enter category"
                 style={inputStyle}
                 className="w-full rounded-lg px-4 py-2 focus:outline-none"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               />
             </div>
 
@@ -102,11 +140,17 @@ function Generate({ darkMode, setDarkMode }) {
                 placeholder="Enter key features"
                 style={inputStyle}
                 className="w-full rounded-lg px-4 py-2 focus:outline-none"
+                value={keyFeatures}
+                onChange={(e) => setKeyFeatures(e.target.value)}
               />
             </div>
 
-            <button className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800">
-              Generate Description
+            <button 
+              className="bg-slate-900 text-white px-6 py-2 rounded-lg hover:bg-slate-800"
+              onClick={handleGenerate}
+              disabled={loading}
+            >
+              {loading ? "Generating..." : "Generate Description"}
             </button>
 
           </div>
@@ -120,64 +164,71 @@ function Generate({ darkMode, setDarkMode }) {
             <h2 className="font-semibold mb-6">
               Generated Description
             </h2>
+            <div
+  style={cardStyle}
+  className="rounded-2xl p-6 shadow-md"
+>
+  <h2 className="text-xl font-semibold mb-4">
+    Generated Description
+  </h2>
 
-            <div className="space-y-3">
+              {loading ? (
+                <div className="space-y-3">
+                  <div
+                    style={{
+                      backgroundColor: darkMode ? "#475569" : "#e5e7eb",
+                    }}
+                    className="h-4 rounded animate-pulse"
+                  ></div>
 
-              <div
-                style={{
-                  backgroundColor: darkMode
-                    ? "#475569"
-                    : "#e5e7eb",
-                }}
-                className="h-4 rounded"
-              ></div>
+                  <div
+                    style={{
+                      backgroundColor: darkMode ? "#475569" : "#e5e7eb",
+                    }}
+                    className="h-4 rounded animate-pulse"
+                  ></div>
 
-              <div
-                style={{
-                  backgroundColor: darkMode
-                    ? "#475569"
-                    : "#e5e7eb",
-                }}
-                className="h-4 rounded"
-              ></div>
+                  <div
+                    style={{
+                      backgroundColor: darkMode ? "#475569" : "#e5e7eb",
+                    }}
+                    className="h-4 rounded animate-pulse"
+                  ></div>
 
-              <div
-                style={{
-                  backgroundColor: darkMode
-                    ? "#475569"
-                    : "#e5e7eb",
-                }}
-                className="h-4 rounded"
-              ></div>
-
-              <div
-                style={{
-                  backgroundColor: darkMode
-                    ? "#475569"
-                    : "#e5e7eb",
-                }}
-                className="h-4 rounded"
-              ></div>
-
-              <div
-                style={{
-                  backgroundColor: darkMode
-                    ? "#475569"
-                    : "#e5e7eb",
-                }}
-                className="h-4 rounded"
-              ></div>
-
-              <div
-                style={{
-                  backgroundColor: darkMode
-                    ? "#475569"
-                    : "#e5e7eb",
-                }}
-                className="h-4 rounded"
-              ></div>
-
+                  <div
+                    style={{
+                      backgroundColor: darkMode ? "#475569" : "#e5e7eb",
+                    }}
+                    className="h-4 rounded animate-pulse"
+                  ></div>
+                </div>
+              ) : error ? (
+                <p className="text-red-500 font-medium">
+                  {error}
+                </p>
+              ) : description ? (
+                <div>
+                  <p
+                    style={{
+                      color: darkMode ? "#e2e8f0" : "#374151",
+                    }}
+                    className="leading-7 whitespace-pre-line"
+                  >
+                    {description}
+                  </p>
+                </div>
+              ) : (
+                <p
+                  style={{
+                    color: darkMode ? "#94a3b8" : "#6b7280",
+                  }}
+                >
+                  Your generated product description will appear here after clicking
+                  <strong> Generate Description</strong>.
+                </p>
+              )}
             </div>
+
           </div>
 
         </div>

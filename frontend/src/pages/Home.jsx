@@ -136,9 +136,9 @@ return (
 
   <Footer darkMode={darkMode} />
 </>
-```
+
 
 );
 }
-
+        
 export default Home;

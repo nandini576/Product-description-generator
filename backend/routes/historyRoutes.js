@@ -1,0 +1,10 @@
+import express from "express";
+import {createHistory,getAllHistory,getHistoryById,updateHistory,deleteHistory,searchHistory} from "../controllers/historyController.js";
+const router = express.Router();
+router.get("/", getAllHistory);
+router.get("/search", searchHistory);
+router.get("/:id", getHistoryById);
+router.post("/", createHistory);
+router.put("/:id", updateHistory);
+router.delete("/:id", deleteHistory);
+export default router;

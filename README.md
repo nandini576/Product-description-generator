@@ -47,7 +47,7 @@ MongoDB was selected because the application stores product description history 
 
 The following diagram represents the database structure used in this project.
 
-![Database Schema](images/schema-design.png)
+![Database Schema](images/schema_design.png)
 
 ---
 

@@ -1,6 +1,18 @@
 # Product Description Generator
 
-A full-stack web application that generates product descriptions for food products using AI. The application consists of a React frontend and an Express.js backend.
+A full-stack web application that generates AI-powered product descriptions for food products. The application uses a React frontend, an Express.js backend, and MongoDB Atlas for persistent data storage.
+
+---
+
+## Features
+
+- Generate AI-powered product descriptions
+- Save generated descriptions to MongoDB
+- View all generated descriptions
+- Search descriptions by product name
+- Update saved descriptions
+- Delete descriptions
+- Responsive user interface
 
 ---
 
@@ -8,62 +20,101 @@ A full-stack web application that generates product descriptions for food produc
 
 ### Frontend
 
-* React
-* React Router
-* Tailwind CSS
-* Axios
+- React
+- React Router
+- Tailwind CSS
+- Axios
 
 ### Backend
 
-* Node.js
-* Express.js
-* CORS
+- Node.js
+- Express.js
+- MongoDB Atlas
+- Mongoose
+- CORS
+
+---
+
+## Database Choice
+
+This project uses **MongoDB Atlas** as the database.
+
+MongoDB was selected because the application stores product description history as document-based data. Its flexible schema makes it easy to manage product information while Mongoose provides a simple way to perform CRUD operations from the Express backend.
+
+---
+
+## Database Schema
+
+The following diagram represents the database structure used in this project.
+
+![Database Schema](images/schema-design.png)
 
 ---
 
 ## Project Structure
 
-```
+```text
 Product-description-generator/
 │
-├── frontend/
 ├── backend/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── server.js
+│   ├── package.json
+│   ├── .env.example
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│
+├── images/
+│   └── schema-diagram.png
+│
 └── README.md
 ```
 
 ---
 
-# How to Run Backend Locally
+## Set Up the Database
 
-### 1. Navigate to the backend folder
+This project uses **MongoDB Atlas**.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/nandini576/Product-description-generator.git
+```
+
+### 2. Install Backend Dependencies
 
 ```bash
 cd backend
-```
-
-### 2. Install dependencies
-
-```bash
 npm install
 ```
 
-### 3. Create a `.env` file
+### 3. Configure Environment Variables
 
-Create a file named `.env` inside the backend folder.
+Create a `.env` file inside the **backend** folder.
 
 Example:
 
 ```env
 PORT=5000
+MONGO_URI=your_mongodb_connection_string
+
 ```
 
-### 4. Start the backend server
+> **Note:** Do not commit your `.env` file. Use the provided `.env.example` as a template.
+
+### 4. Start the Backend Server
 
 ```bash
 npm run dev
 ```
 
-The backend will run at:
+The backend runs on:
 
 ```
 http://localhost:5000
@@ -71,7 +122,7 @@ http://localhost:5000
 
 ---
 
-# How to Run Frontend Locally
+## Run the Frontend
 
 ### 1. Navigate to the frontend folder
 
@@ -91,7 +142,7 @@ npm install
 npm run dev
 ```
 
-The frontend will run at:
+The frontend runs on:
 
 ```
 http://localhost:5173
@@ -101,25 +152,31 @@ http://localhost:5173
 
 ## Available API Endpoints
 
-| Method | Endpoint                 | Description                  |
-| ------ | ------------------------ | ---------------------------- |
-| GET    | `/`                      | Health Check                 |
-| POST   | `/api/generate`          | Generate Product Description |
-| POST   | `/api/history`           | Create History               |
-| GET    | `/api/history`           | Get All History              |
-| GET    | `/api/history/:id`       | Get History by ID            |
-| PUT    | `/api/history/:id`       | Update History               |
-| DELETE | `/api/history/:id`       | Delete History               |
-| GET    | `/api/history/search?q=` | Search History               |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/` | Health Check |
+| POST | `/api/generate` | Generate Product Description |
+| POST | `/api/history` | Create History |
+| GET | `/api/history` | Get All History |
+| GET | `/api/history/:id` | Get History by ID |
+| PUT | `/api/history/:id` | Update History |
+| DELETE | `/api/history/:id` | Delete History |
+| GET | `/api/history/search?q=` | Search History |
 
 ---
 
+## Environment Variables
+
+Create a `.env` file inside the backend folder.
+
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+
+```
+
+An example configuration is provided in **backend/.env.example**.
 
 
-## Future Improvements
+---
 
-* MongoDB Database
-* Google Authentication
-* Groq AI Integration
-* User Accounts
-* Persistent History

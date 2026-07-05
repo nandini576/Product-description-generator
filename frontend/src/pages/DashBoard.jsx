@@ -61,13 +61,13 @@ function Dashboard({ darkMode, setDarkMode }) {
     }
   }
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (_id) => {
     try {
-      await axios.delete(`${API}/${id}`);
+      await axios.delete(`${API}/${_id}`);
 
-      setHistory(history.filter((item) => item.id !== id));
+      setHistory(history.filter((item) => item._id !== _id));
 
-      if (selectedItem?.id === id) {
+      if (selectedItem?._id === _id) {
         setSelectedItem(null);
         setIsModalOpen(false);
       }
@@ -81,36 +81,35 @@ function Dashboard({ darkMode, setDarkMode }) {
 
   async function handleView(id) {
     try {
+      console.log("View clicked:", id);
       const res = await axios.get(`${API}/${id}`);
+      console.log("Response:", res.data);
       setSelectedItem(res.data.data);
       setIsModalOpen(true);
-       console.log("DATA:", res.data); // 👈 add this
-
     } catch (err) {
-      console.log(err);
+      console.error("View Error:", err);
     }
-  }
-
+}
   async function handleUpdate(item) {
     const newDescription = prompt(
       "Edit description:",
-      item.generatedDescription
+      item.description
     );
 
     if (!newDescription) return;
 
     try {
-      await axios.put(`${API}/${item.id}`, {
+      await axios.put(`${API}/${item._id}`, {
         ...item,
-        generatedDescription: newDescription,
+        description: newDescription,
       });
 
       fetchHistory();
 
-      if (selectedItem?.id === item.id) {
+      if (selectedItem?._id === item._id) {
         setSelectedItem({
           ...selectedItem,
-          generatedDescription: newDescription,
+          description: newDescription,
         });
       }
 
@@ -197,7 +196,7 @@ function Dashboard({ darkMode, setDarkMode }) {
 
                 <tbody>
                   {history.map((item) => (
-                    <tr key={item.id} className="border-b">
+                    <tr key={item._id} className="border-b">
 
                       <td className="py-4">{item.productName}</td>
                       <td>{item.category}</td>
@@ -213,7 +212,7 @@ function Dashboard({ darkMode, setDarkMode }) {
                         <div className="flex gap-2 flex-wrap text-xs">
 
                           <button
-                            onClick={() => handleView(item.id)}
+                            onClick={() => handleView(item._id)}
                             className="px-2 py-1 rounded-md border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer text-xs"
                           >
                             View
@@ -227,7 +226,7 @@ function Dashboard({ darkMode, setDarkMode }) {
                           </button>
 
                           <button
-                            onClick={() => handleDelete(item.id)}
+                            onClick={() => handleDelete(item._id)}
                             className="px-2 py-1 rounded-md border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer text-xs"
                           >
                             Delete
@@ -282,7 +281,7 @@ function Dashboard({ darkMode, setDarkMode }) {
               <p className="mt-4 font-semibold">Description:</p>
 
               <p className="mt-2 leading-7">
-                {selectedItem.generatedDescription}
+                {selectedItem.description}
               </p>
 
             </div>

@@ -9,62 +9,50 @@ function About({ darkMode, setDarkMode }) {
         setDarkMode={setDarkMode}
       />
 
-      <main className="max-w-[1440px] mx-auto px-4 md:px-8 py-8 md:py-12 lg:py-16 min-h-[70vh]">
+      <main className="max-w-7xl mx-auto px-6 py-20">
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <h1 className="text-5xl font-bold text-center text-green-700">
+          About Our Project
+        </h1>
 
-          {/* Image Placeholder */}
-          <div
-            className={`rounded-2xl h-60 md:h-72 lg:h-80 flex items-center justify-center shadow-sm border ${
-              darkMode
-                ? "bg-slate-800 border-slate-700"
-                : "bg-white border-gray-200"
-            }`}
-          >
-            <div
-              className={`w-16 h-16 md:w-20 md:h-20 rounded-lg ${
-                darkMode
-                  ? "bg-slate-700"
-                  : "bg-gray-200"
-              }`}
-            />
-          </div>
+        <p className="mt-8 text-lg text-center max-w-3xl mx-auto text-gray-600 leading-8">
 
-          {/* Content */}
-          <div>
+          Product Description AI is an AI-powered
+          application that helps businesses create
+          compelling, SEO-friendly product
+          descriptions in just a few seconds.
 
-            <h1
-              className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 ${
-                darkMode
-                  ? "text-white"
-                  : "text-black"
-              }`}
-            >
-              About Us
-            </h1>
+        </p>
 
-            <p
-              className={`text-sm md:text-base leading-7 md:leading-8 mb-4 md:mb-6 ${
-                darkMode
-                  ? "text-slate-300"
-                  : "text-gray-600"
-              }`}
-            >
-              We built this tool to help entrepreneurs,
-              marketers and e-commerce sellers create
-              high-quality product descriptions effortlessly
-              using the power of AI.
+        <div className="grid md:grid-cols-2 gap-8 mt-20">
+
+          <div className="bg-white shadow-md rounded-2xl p-8">
+
+            <h2 className="text-2xl font-semibold text-green-500">
+              Our Mission
+            </h2>
+
+            <p className="mt-4 text-gray-600">
+               To empower every small business with AI-driven tools that make
+                professional product marketing simple, affordable, and
+                accessible. We believe every product deserves the opportunity to
+                reach the right audience, regardless of the size of the company
+                behind it.
             </p>
 
-            <p
-              className={`text-sm md:text-base leading-7 md:leading-8 ${
-                darkMode
-                  ? "text-slate-300"
-                  : "text-gray-600"
-              }`}
-            >
-              Our mission is to make content creation
-              faster, smarter and easier for everyone.
+          </div>
+
+          <div className="bg-white shadow-md rounded-2xl p-8">
+
+            <h2 className="text-2xl font-semibold text-green-500">
+              Our Vision
+            </h2>
+
+            <p className="mt-4 text-gray-600">
+             Our vision is to become a trusted AI companion for businesses
+                around the world by helping entrepreneurs showcase their
+                products more effectively, improve customer engagement, and
+                compete confidently in today's digital marketplace.
             </p>
 
           </div>
@@ -73,7 +61,7 @@ function About({ darkMode, setDarkMode }) {
 
       </main>
 
-      <Footer darkMode={darkMode} />
+      <Footer />
     </>
   );
 }

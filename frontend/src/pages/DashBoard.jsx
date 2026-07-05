@@ -6,11 +6,10 @@ import Footer from "../components/Footer";
 function Dashboard({ darkMode, setDarkMode }) {
   const [history, setHistory] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [search, setSearch] = useState("");
-
   const [loading, setLoading] = useState(false);
-
   const [error, setError] = useState("");
 
   const API = "http://localhost:5000/api/history";
@@ -18,17 +17,13 @@ function Dashboard({ darkMode, setDarkMode }) {
   const cardStyle = {
     backgroundColor: darkMode ? "#1e293b" : "white",
     color: darkMode ? "white" : "black",
-    border: darkMode
-      ? "1px solid #334155"
-      : "1px solid #e5e7eb",
+    border: darkMode ? "1px solid #334155" : "1px solid #e5e7eb",
   };
 
   const inputStyle = {
     backgroundColor: darkMode ? "#0f172a" : "white",
     color: darkMode ? "white" : "black",
-    border: darkMode
-      ? "1px solid #334155"
-      : "1px solid #d1d5db",
+    border: darkMode ? "1px solid #334155" : "1px solid #d1d5db",
   };
 
   useEffect(() => {
@@ -38,12 +33,10 @@ function Dashboard({ darkMode, setDarkMode }) {
   async function fetchHistory() {
     try {
       setLoading(true);
-
       const res = await axios.get(API);
-
       setHistory(res.data.data);
-
       setLoading(false);
+      console.log(res.data.data);
     } catch (err) {
       setLoading(false);
       setError("Unable to fetch history.");
@@ -59,13 +52,8 @@ function Dashboard({ darkMode, setDarkMode }) {
       }
 
       setLoading(true);
-
-      const res = await axios.get(
-        `${API}/search?q=${search}`
-      );
-
+      const res = await axios.get(`${API}/search?q=${search}`);
       setHistory(res.data.data);
-
       setLoading(false);
     } catch (err) {
       setLoading(false);
@@ -74,119 +62,124 @@ function Dashboard({ darkMode, setDarkMode }) {
   }
 
   const handleDelete = async (id) => {
-  try {
-    await axios.delete(`http://localhost:5000/api/history/${id}`);
+    try {
+      await axios.delete(`${API}/${id}`);
 
-    const updatedHistory = history.filter((item) => item.id !== id);
-    setHistory(updatedHistory);
+      setHistory(history.filter((item) => item.id !== id));
 
-    // Remove Description Details if deleted item was selected
-    if (selectedItem && selectedItem.id === id) {
-      setSelectedItem(null);
+      if (selectedItem?.id === id) {
+        setSelectedItem(null);
+        setIsModalOpen(false);
+      }
+
+      alert("Deleted successfully.");
+    } catch (error) {
+      console.error(error);
+      alert("Delete failed.");
     }
+  };
 
-    alert("Description deleted successfully.");
-  } catch (error) {
-    console.error(error);
-    alert("Failed to delete description.");
-  }
-};
   async function handleView(id) {
     try {
       const res = await axios.get(`${API}/${id}`);
-
       setSelectedItem(res.data.data);
+      setIsModalOpen(true);
+       console.log("DATA:", res.data); // 👈 add this
+
     } catch (err) {
       console.log(err);
     }
   }
 
+  async function handleUpdate(item) {
+    const newDescription = prompt(
+      "Edit description:",
+      item.generatedDescription
+    );
+
+    if (!newDescription) return;
+
+    try {
+      await axios.put(`${API}/${item.id}`, {
+        ...item,
+        generatedDescription: newDescription,
+      });
+
+      fetchHistory();
+
+      if (selectedItem?.id === item.id) {
+        setSelectedItem({
+          ...selectedItem,
+          generatedDescription: newDescription,
+        });
+      }
+
+      alert("Updated successfully!");
+    } catch (err) {
+      console.error(err);
+      alert("Update failed.");
+    }
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedItem(null);
+  };
+
   return (
     <>
-      <Navbar
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-      />
+      <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main className="max-w-7xl mx-auto px-6 py-10 min-h-[70vh]">
 
-        <h1
-          className="text-4xl font-bold"
-          style={{
-            color: darkMode ? "white" : "black",
-          }}
-        >
+        <h1 className="text-4xl font-bold" style={{ color: darkMode ? "white" : "black" }}>
           Dashboard
         </h1>
 
-        <p
-          className="mt-2 mb-8"
-          style={{
-            color: darkMode ? "#cbd5e1" : "#6b7280",
-          }}
-        >
+        <p className="mt-2 mb-8" style={{ color: darkMode ? "#cbd5e1" : "#6b7280" }}>
           Manage your generated food descriptions using the backend APIs.
         </p>
 
-        <div
-          style={cardStyle}
-          className="rounded-xl p-6 shadow-md mb-8"
-        >
-
+        {/* SEARCH */}
+        <div style={cardStyle} className="rounded-xl p-6 shadow-md mb-8">
           <div className="flex flex-col md:flex-row gap-4">
 
             <input
               type="text"
               placeholder="Search by product name..."
               value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
+              onChange={(e) => setSearch(e.target.value)}
               style={inputStyle}
               className="flex-1 rounded-lg px-4 py-2"
             />
 
             <button
               onClick={handleSearch}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg"
+              className="px-3 py-1.5 text-sm rounded-md border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer"
             >
               Search
             </button>
 
             <button
               onClick={fetchHistory}
-              className="bg-slate-700 text-white px-6 py-2 rounded-lg"
+              className="px-3 py-1.5 text-sm rounded-md border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer"
             >
               Refresh
             </button>
 
           </div>
-
         </div>
 
-        <div
-          style={cardStyle}
-          className="rounded-xl p-6 shadow-md"
-        >
-                  {loading ? (
-            <div className="text-center py-10">
-              <h2 className="text-xl font-semibold">
-                Loading...
-              </h2>
-            </div>
+        {/* TABLE */}
+        <div style={cardStyle} className="rounded-xl p-6 shadow-md">
+
+          {loading ? (
+            <div className="text-center py-10">Loading...</div>
           ) : error ? (
-            <div className="text-center text-red-500 py-10">
-              {error}
-            </div>
+            <div className="text-center text-red-500 py-10">{error}</div>
           ) : history.length === 0 ? (
             <div className="text-center py-10">
-              <h2 className="text-xl font-semibold">
-                No descriptions found.
-              </h2>
-
-              <p className="mt-2 text-gray-500">
-                Generate your first food description from the Generate page.
-              </p>
+              No descriptions found.
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -194,195 +187,112 @@ function Dashboard({ darkMode, setDarkMode }) {
               <table className="w-full">
 
                 <thead>
-
-                  <tr
-                    style={{
-                      borderBottom: darkMode
-                        ? "1px solid #334155"
-                        : "1px solid #e5e7eb",
-                    }}
-                  >
-
-                    <th className="text-left py-4">
-                      Product
-                    </th>
-
-                    <th className="text-left py-4">
-                      Category
-                    </th>
-
-                    <th className="text-left py-4">
-                      Features
-                    </th>
-
-                    <th className="text-left py-4">
-                      Description
-                    </th>
-
-                    <th className="text-left py-4">
-                      Actions
-                    </th>
-
+                  <tr>
+                    <th className="text-left py-4">Product</th>
+                    <th className="text-left py-4">Category</th>
+                    <th className="text-left py-4">Features</th>
+                    <th className="text-left py-4">Actions</th>
                   </tr>
-
                 </thead>
 
                 <tbody>
-
                   {history.map((item) => (
+                    <tr key={item.id} className="border-b">
 
-                    <tr
-                      key={item.id}
-                      style={{
-                        borderBottom: darkMode
-                          ? "1px solid #334155"
-                          : "1px solid #e5e7eb",
-                      }}
-                    >
-
-                      <td className="py-5">
-                        {item.productName}
-                      </td>
+                      <td className="py-4">{item.productName}</td>
+                      <td>{item.category}</td>
 
                       <td>
-                        {item.category}
-                      </td>
-
-                      <td>
-
                         {Array.isArray(item.keyFeatures)
                           ? item.keyFeatures.join(", ")
                           : item.keyFeatures}
-
                       </td>
 
-                      <td className="max-w-sm">
-
-                        <p className="line-clamp-2">
-
-                          {item.generatedDescription}
-
-                        </p>
-
-                      </td>
-
+                      {/* ACTIONS */}
                       <td>
-
-                        <div className="flex gap-2 flex-wrap">
+                        <div className="flex gap-2 flex-wrap text-xs">
 
                           <button
-                            onClick={() =>
-                              handleView(item.id)
-                            }
-                            className="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded transition"
+                            onClick={() => handleView(item.id)}
+                            className="px-2 py-1 rounded-md border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer text-xs"
                           >
                             View
                           </button>
 
                           <button
-                            onClick={() =>
-                              alert(
-                                "Update endpoint is ready. Edit UI will be added in Week 5."
-                              )
-                            }
-                            className="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded transition"
+                            onClick={() => handleUpdate(item)}
+                            className="px-2 py-1 rounded-md border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer text-xs"
                           >
                             Update
                           </button>
 
                           <button
-                            onClick={() =>
-                              handleDelete(item.id)
-                            }
-                            className="bg-slate-700 hover:bg-slate-800 text-white px-3 py-1 rounded transitionbg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded"
+                            onClick={() => handleDelete(item.id)}
+                            className="px-2 py-1 rounded-md border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer text-xs"
                           >
                             Delete
                           </button>
 
                         </div>
-
                       </td>
 
                     </tr>
-
                   ))}
-
                 </tbody>
 
               </table>
-
             </div>
           )}
+        </div>
 
-          {selectedItem && (
+        {/* MODAL */}
+        {isModalOpen && selectedItem && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
 
             <div
-              className="mt-8 rounded-xl p-6"
+              className="w-full max-w-2xl rounded-xl p-6 relative"
               style={{
-                backgroundColor: darkMode
-                  ? "#0f172a"
-                  : "#f8fafc",
+                backgroundColor: darkMode ? "#0f172a" : "white",
+                color: darkMode ? "white" : "black",
               }}
             >
 
-              <h2 className="text-2xl font-semibold mb-5">
+              {/* CLOSE BUTTON */}
+              <button
+                onClick={closeModal}
+                className="absolute top-3 right-3 text-xl text-gray-400 hover:text-red-500"
+              >
+                ✕
+              </button>
+
+              <h2 className="text-2xl font-semibold mb-4">
                 Description Details
               </h2>
 
-              <div className="space-y-3">
+              <p><strong>Product:</strong> {selectedItem.productName}</p>
+              <p><strong>Category:</strong> {selectedItem.category}</p>
 
-                <p>
+              <p className="mt-2">
+                <strong>Features:</strong>{" "}
+                {Array.isArray(selectedItem.keyFeatures)
+                  ? selectedItem.keyFeatures.join(", ")
+                  : selectedItem.keyFeatures}
+              </p>
 
-                  <strong>Product :</strong>{" "}
+              <p className="mt-4 font-semibold">Description:</p>
 
-                  {selectedItem.productName}
-
-                </p>
-
-                <p>
-
-                  <strong>Category :</strong>{" "}
-
-                  {selectedItem.category}
-
-                </p>
-
-                <p>
-
-                  <strong>Features :</strong>{" "}
-
-                  {Array.isArray(selectedItem.keyFeatures)
-                    ? selectedItem.keyFeatures.join(", ")
-                    : selectedItem.keyFeatures}
-
-                </p>
-
-                <p>
-
-                  <strong>Description :</strong>
-
-                </p>
-
-                <p className="leading-7">
-
-                  {selectedItem.generatedDescription}
-
-                </p>
-
-              </div>
+              <p className="mt-2 leading-7">
+                {selectedItem.generatedDescription}
+              </p>
 
             </div>
 
-          )}
-                  </div>
+          </div>
+        )}
 
       </main>
 
-      <Footer
-        darkMode={darkMode}
-        setDarkMode={setDarkMode}
-      />
-
+      <Footer darkMode={darkMode} setDarkMode={setDarkMode} />
     </>
   );
 }

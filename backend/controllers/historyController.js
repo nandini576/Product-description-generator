@@ -1,90 +1,110 @@
-import { v4 as uuid } from "uuid";
-let history = [];
-// CREATE
-export const createHistory = (req, res) => {
-    const { productName, category, keyFeatures, description } = req.body;
+import History from "../models/History.js";
+
+export const createHistory = async (req, res, next) => {
+  try {
+    const {productName,category,keyFeatures,description}= req.body;
     if (!productName || !category || !keyFeatures || !description) {
-        return res.status(400).json({
-            success: false,
-            message: "All fields are required"
-        });
+      return res.status(400).json({
+        success: false,
+        message: "All fields are required",
+      });
     }
-    const newHistory = {
-        id: uuid(),
-        productName,
-        category,
-        keyFeatures,
-        description
-    };
-    history.push(newHistory);
+    const history = await History.create({productName,category,keyFeatures,description});
     res.status(201).json({
-        success: true,
-        message: "History added successfully",
-        data: newHistory
+      success: true,
+      message: "History created successfully",
+      data: history,
     });
+  } catch (error) {
+    next(error);
+  }
 };
-// GET ALL
-export const getAllHistory = (req, res) => {
+export const getAllHistory = async (req, res, next) => {
+  try {
+    const history = await History.find().sort({ createdAt: -1 });
     res.status(200).json({
-        success: true,
-        count: history.length,
-        data: history
+      success: true,
+      count: history.length,
+      data: history,
     });
+  } catch (error) {
+    next(error);
+  }
 };
-// GET SINGLE
-export const getHistoryById = (req, res) => {
-    const item = history.find(h => h.id === req.params.id);
-    if (!item) {
-        return res.status(404).json({
-            success: false,
-            message: "History not found"
-        });
+export const getHistoryById = async (req, res, next) => {
+  try {
+    const history = await History.findById(req.params.id);
+    if (!history) {
+      return res.status(404).json({
+        success: false,
+        message: "History not found",
+      });
     }
     res.status(200).json({
-        success: true,
-        data: item
+      success: true,
+      data: history,
     });
+  } catch (error) {
+    next(error);
+  }
 };
-// UPDATE
-export const updateHistory = (req, res) => {
-    const index = history.findIndex(h => h.id === req.params.id);
-    if (index === -1) {
-        return res.status(404).json({
-            success: false,
-            message: "History not found"
-        });
-    }
-    history[index] = {
-        ...history[index],
-        ...req.body
-    };
-    res.status(200).json({
-        success: true,
-        message: "History updated",
-        data: history[index]
-    });
-};
-// DELETE
-export const deleteHistory = (req, res) => {
-    const index = history.findIndex(h => h.id === req.params.id);
-    if (index === -1) {
-        return res.status(404).json({
-            success: false,
-            message: "History not found"
-        });
-    }
-    history.splice(index, 1);
-    res.status(204).send();
-};
-// SEARCH
-export const searchHistory = (req, res) => {
-    const query = req.query.q?.toLowerCase() || "";
-    const result = history.filter(item =>
-        item.productName.toLowerCase().includes(query)
+export const updateHistory = async (req, res, next) => {
+  try {
+    const history = await History.findByIdAndUpdate(req.params.id,req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
     );
+    if (!history) {
+      return res.status(404).json({
+        success: false,
+        message: "History not found",
+      });
+    }
     res.status(200).json({
-        success: true,
-        count: result.length,
-        data: result
+      success: true,
+      message: "History updated successfully",
+      data: history,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+export const deleteHistory = async (req, res, next) => {
+  try {
+    const history = await History.findByIdAndDelete(req.params.id);
+    if (!history) {
+      return res.status(404).json({
+        success: false,
+        message: "History not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: "History deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const searchHistory = async (req, res, next) => {
+  try {
+    const query = req.query.q || "";
+
+    const history = await History.find({
+      productName: {
+        $regex: query,
+        $options: "i",
+      },
+    });
+    res.status(200).json({
+      success: true,
+      count: history.length,
+      data: history,
+    });
+  } catch (error) {
+    next(error);
+  }
 };

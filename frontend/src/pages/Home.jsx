@@ -1,144 +1,144 @@
 import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
 import Footer from "../components/Footer";
-import { motion } from "framer-motion";
+import Card from "../components/Card";
+
+import {
+  Sparkles,
+  Search,
+  Clock3,
+} from "lucide-react";
 
 function Home({ darkMode, setDarkMode }) {
-return (
-<> <Navbar
-     darkMode={darkMode}
-     setDarkMode={setDarkMode}
-   />
+  return (
+    <>
+      <Navbar
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
 
-```
-  <main className="max-w-[1440px] mx-auto px-4 md:px-8 py-8 md:py-12 lg:py-16 min-h-[70vh]">
+      <Hero />
 
-    {/* Hero Section */}
-    <section className="text-center max-w-4xl mx-auto">
+      {/* About */}
 
-      <motion.h1
-        initial={{ opacity: 0, y: -40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className={`text-3xl md:text-5xl lg:text-6xl font-bold leading-tight ${
-          darkMode ? "text-white" : "text-slate-900"
-        }`}
-      >
-        Generate Product Descriptions with AI
-      </motion.h1>
-
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.3 }}
-        className={`mt-4 md:mt-6 text-sm md:text-lg max-w-2xl mx-auto ${
+      <section
+        className={`py-24 ${
           darkMode
-            ? "text-slate-300"
-            : "text-slate-500"
+            ? "bg-[#16231A]"
+            : "bg-[#F8FAF5]"
         }`}
       >
-        Create engaging product descriptions
-        in seconds using AI.
-      </motion.p>
+        <div className="max-w-7xl mx-auto px-6">
 
-    </section>
+          <h2
+            className={`text-4xl font-bold text-center ${
+              darkMode
+                ? "text-green-300"
+                : "text-green-700"
+            }`}
+          >
+            Why Product Description AI?
+          </h2>
 
-    {/* Feature Cards */}
-    <section className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-10 md:mt-16">
+          <p
+            className={`max-w-3xl mx-auto mt-6 text-center leading-8 ${
+              darkMode
+                ? "text-gray-300"
+                : "text-gray-600"
+            }`}
+          >
+            Product Description AI helps
+            startups and small businesses
+            create engaging product descriptions
+            in seconds using Artificial Intelligence.
+            Save time, improve SEO and increase
+            conversions effortlessly.
+          </p>
 
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{
-          backgroundColor: darkMode ? "#1e293b" : "white",
-          color: darkMode ? "white" : "black",
-          border: darkMode
-            ? "1px solid #334155"
-            : "1px solid #e5e7eb",
-        }}
-        className="rounded-2xl p-6 md:p-8 shadow-md"
+        </div>
+      </section>
+      {/* How It Works */}
+
+      <section
+        className={`py-24 ${
+          darkMode
+            ? "bg-[#16231A]"
+            : "bg-[#F8FAF5]"
+        }`}
       >
-        <div
-          style={{
-            backgroundColor: darkMode
-              ? "#475569"
-              : "#e5e7eb",
-          }}
-          className="w-12 h-12 rounded-lg mb-4"
-        ></div>
+        <div className="max-w-6xl mx-auto px-6">
 
-        <h2 className="font-semibold text-lg md:text-xl">
-          AI Powered
-        </h2>
+          <h2
+            className={`text-center text-4xl font-bold ${
+              darkMode
+                ? "text-green-300"
+                : "text-green-700"
+            }`}
+          >
+            How It Works
+          </h2>
 
-        <p
-          style={{
-            color: darkMode
-              ? "#cbd5e1"
-              : "#6b7280",
-          }}
-          className="mt-2 text-sm md:text-base"
-        >
-          Generate descriptions instantly
-          with advanced AI technology.
-        </p>
-      </motion.div>
+          <div className="grid md:grid-cols-3 gap-10 mt-16">
 
-      <motion.div
-        animate={{ y: [0, -10, 0] }}
-        transition={{
-          duration: 3,
-          delay: 1,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-        style={{
-          backgroundColor: darkMode ? "#1e293b" : "white",
-          color: darkMode ? "white" : "black",
-          border: darkMode
-            ? "1px solid #334155"
-            : "1px solid #e5e7eb",
-        }}
-        className="rounded-2xl p-6 md:p-8 shadow-md"
-      >
-        <div
-          style={{
-            backgroundColor: darkMode
-              ? "#475569"
-              : "#e5e7eb",
-          }}
-          className="w-12 h-12 rounded-lg mb-4"
-        ></div>
+            {[
+              {
+                number: "01",
+                title: "Enter Product",
+                text: "Provide the product name, category and key features.",
+              },
+              {
+                number: "02",
+                title: "Generate",
+                text: "AI creates a compelling and SEO-friendly description.",
+              },
+              {
+                number: "03",
+                title: "Copy & Use",
+                text: "Copy the description and publish it instantly.",
+              },
+            ].map((step) => (
+              <div
+                key={step.number}
+                className={`rounded-3xl p-8 shadow-lg text-center ${
+                  darkMode
+                    ? "bg-[#243127]"
+                    : "bg-white"
+                }`}
+              >
+                <div className="text-5xl font-bold text-green-600">
+                  {step.number}
+                </div>
 
-        <h2 className="font-semibold text-lg md:text-xl">
-          E-Commerce Ready
-        </h2>
+                <h3
+                  className={`mt-5 text-2xl font-bold ${
+                    darkMode
+                      ? "text-white"
+                      : "text-gray-800"
+                  }`}
+                >
+                  {step.title}
+                </h3>
 
-        <p
-          style={{
-            color: darkMode
-              ? "#cbd5e1"
-              : "#6b7280",
-          }}
-          className="mt-2 text-sm md:text-base"
-        >
-          Optimized descriptions for Amazon,
-          Shopify and other marketplaces.
-        </p>
-      </motion.div>
+                <p
+                  className={`mt-4 leading-8 ${
+                    darkMode
+                      ? "text-gray-300"
+                      : "text-gray-600"
+                  }`}
+                >
+                  {step.text}
+                </p>
+              </div>
+            ))}
 
-    </section>
+          </div>
 
-  </main>
+        </div>
+      </section>
 
-  <Footer darkMode={darkMode} />
-</>
-
-
-);
+      <Footer darkMode={darkMode} />
+    </>
+  );
 }
-        
+
 export default Home;

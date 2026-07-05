@@ -1,23 +1,18 @@
-import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Dashboard from "./pages/Dashboard";
 import Generate from "./pages/Generate";
 import Login from "./pages/Login";
-
+import ProtectedRoute from "./components/ProtectedRoute";
+import Register from "./pages/Register";
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div
-      className={
-        darkMode
-          ? "min-h-screen bg-slate-950 text-white"
-          : "min-h-screen bg-white text-black"
-      }
-    >
+    <div className={darkMode ? "dark bg-slate-900" : "bg-white"}>
       <BrowserRouter>
         <Routes>
           <Route
@@ -41,22 +36,20 @@ function App() {
           />
 
           <Route
-            path="/dashboard"
-            element={
-              <Dashboard
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
-              />
-            }
-          />
-
-          <Route
             path="/generate"
             element={
-              <Generate
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
-              />
+              <ProtectedRoute>
+                   <Generate darkMode={darkMode} setDarkMode={setDarkMode}/>               
+              </ProtectedRoute>  
+            }
+          />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                  <Dashboard darkMode={darkMode} setDarkMode={setDarkMode}/>
+              </ProtectedRoute>
+              
             }
           />
 
@@ -64,6 +57,15 @@ function App() {
             path="/login"
             element={
               <Login
+                darkMode={darkMode}
+                setDarkMode={setDarkMode}
+              />
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <Register
                 darkMode={darkMode}
                 setDarkMode={setDarkMode}
               />

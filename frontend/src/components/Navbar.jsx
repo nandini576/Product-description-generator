@@ -1,72 +1,94 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { Moon, Sun, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 function Navbar({ darkMode, setDarkMode }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Generate", path: "/generate" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Login", path: "/login" },
+  ];
+
   return (
-    <nav
-      className={`shadow-md py-4 px-4 md:px-8 transition-colors duration-300 ${
-        darkMode
-          ? "bg-slate-900 text-white"
-          : "bg-white text-slate-900"
-      }`}
-    >
-      <div className="max-w-[1440px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 bg-[#2E7D32] shadow-lg">
+      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
 
-        <h1 className="font-bold text-base md:text-lg lg:text-xl text-center md:text-left">
-          Product Description Generator
-        </h1>
+        <Link
+          to="/"
+          className="text-3xl font-bold text-white tracking-wide"
+        >
+          Product Description AI
+        </Link>
 
-        <div className="flex flex-wrap justify-center md:justify-end items-center gap-2 md:gap-4 text-sm">
+        {/* Desktop */}
+        <nav className="hidden md:flex items-center gap-8">
 
-          <Link
-            to="/"
-            className="hover:text-gray-500 transition-colors"
-          >
-            Home
-          </Link>
-
-          <Link
-            to="/about"
-            className="hover:text-gray-500 transition-colors"
-          >
-            About
-          </Link>
-
-          <Link
-            to="/dashboard"
-            className="hover:text-gray-500 transition-colors"
-          >
-            Dashboard
-          </Link>
-
-          <Link
-            to="/generate"
-            className="hover:text-gray-500 transition-colors"
-          >
-            Generate
-          </Link>
-
-          <Link
-            to="/login"
-            className="hover:text-gray-500 transition-colors"
-          >
-            Login
-          </Link>
+          {links.map((item) => (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              className={({ isActive }) =>
+                `transition font-medium ${
+                  isActive
+                    ? "text-white border-b-2 border-white pb-1"
+                    : "text-green-100 hover:text-white"
+                }`
+              }
+            >
+              {item.name}
+            </NavLink>
+          ))}
 
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className={`px-3 py-2 rounded-lg border transition-colors ${
-              darkMode
-                ? "bg-slate-800 border-slate-700"
-                : "bg-white border-gray-300"
-            }`}
+            className="bg-white/20 hover:bg-white/30 transition rounded-full p-2"
           >
-            {darkMode ? "☀️" : "🌙"}
+            {darkMode ? (
+              <Sun className="text-yellow-300" />
+            ) : (
+              <Moon className="text-white" />
+            )}
           </button>
+
+        </nav>
+
+        {/* Mobile */}
+
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden text-white"
+        >
+          {menuOpen ? <X size={28} /> : <Menu size={28} />}
+        </button>
+
+      </div>
+
+      {menuOpen && (
+
+        <div className="md:hidden bg-[#2E7D32]">
+
+          {links.map((item) => (
+
+            <NavLink
+              key={item.name}
+              to={item.path}
+              onClick={() => setMenuOpen(false)}
+              className="block px-6 py-4 text-green-100 hover:bg-green-700"
+            >
+              {item.name}
+            </NavLink>
+
+          ))}
 
         </div>
 
-      </div>
-    </nav>
+      )}
+
+    </header>
   );
 }
 

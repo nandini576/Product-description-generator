@@ -1,40 +1,34 @@
-/**
- * Button Component
- *
- * Props:
- * - children
- * - variant: primary | secondary | outline
- * - size: sm | md | lg
- * - disabled
- * - onClick
- */
-
 function Button({
   children,
-  variant = "primary",
-  size = "md",
-  disabled = false,
   onClick,
+  type = "button",
+  size = "md",
+  className = "",
 }) {
-  const variants = {
-    primary: "bg-gray-800 text-white",
-    secondary: "bg-gray-500 text-white",
-    outline: "border border-gray-400 text-gray-700",
-  };
-
   const sizes = {
-    sm: "px-3 py-1 text-sm",
-    md: "px-5 py-2",
-    lg: "px-7 py-3 text-lg",
+    sm: "px-4 py-2 text-sm",
+    md: "px-6 py-3 text-base",
+    lg: "px-8 py-4 text-lg",
   };
 
   return (
     <button
+      type={type}
       onClick={onClick}
-      disabled={disabled}
-      className={`rounded-lg transition ${variants[variant]} ${sizes[size]} ${
-        disabled ? "opacity-50 cursor-not-allowed" : ""
-      }`}
+      className={`
+      ${sizes[size]}
+      rounded-full
+      bg-[#2E7D32]
+      hover:bg-[#1B5E20]
+      text-white
+      font-semibold
+      shadow-lg
+      hover:shadow-xl
+      transition-all
+      duration-300
+      hover:scale-105
+      ${className}
+      `}
     >
       {children}
     </button>

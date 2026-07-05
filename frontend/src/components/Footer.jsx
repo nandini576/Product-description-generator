@@ -1,20 +1,109 @@
+import { ArrowUp, Mail } from "lucide-react";
+import { Link } from "react-router-dom";
+
 function Footer({ darkMode }) {
   return (
     <footer
-      className={`border-t mt-8 md:mt-12 lg:mt-16 ${
+      className={`${
         darkMode
-          ? "bg-slate-900 border-slate-700 text-slate-300"
-          : "bg-white border-gray-200 text-gray-500"
-      }`}
+          ? "bg-[#16231A]"
+          : "bg-[#2E7D32]"
+      } text-white mt-12`}
     >
-      <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-4 md:py-6 text-center">
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
-        <p className="text-sm md:text-base">
-          © 2026 Product Description Generator
-        </p>
+        <div className="grid md:grid-cols-3 gap-8">
 
-        <p className="mt-2 text-xs md:text-sm">
-          TBI - Graphic Era University | Summer Internship Program 2026
+          {/* Logo */}
+
+          <div>
+
+            <h2 className="text-2xl font-bold">
+
+              Product Description AI
+
+            </h2>
+
+            <p className="text-green-100 mt-3 leading-7">
+
+              Helping small businesses create
+              engaging AI-powered product
+              descriptions in seconds.
+
+            </p>
+
+          </div>
+
+          {/* Links */}
+
+          <div>
+
+            <h3 className="font-semibold mb-4">
+
+              Quick Links
+
+            </h3>
+
+            <div className="space-y-2">
+
+              <Link to="/">Home</Link><br />
+
+              <Link to="/about">About</Link><br />
+
+              <Link to="/generate">Generate</Link><br />
+
+              <Link to="/dashboard">Dashboard</Link><br />
+
+              <Link to="/login">Login</Link>
+
+            </div>
+
+          </div>
+
+          {/* Contact */}
+
+          <div>
+
+            <h3 className="font-semibold mb-4">
+
+              Contact
+
+            </h3>
+
+            <div className="flex items-center gap-3">
+
+              <Mail />
+
+              contact@productai.com
+
+            </div>
+
+            <button
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                })
+              }
+              className="mt-5 flex items-center gap-2 bg-white text-green-700 px-4 py-2 rounded-full hover:scale-105 transition"
+            >
+
+              <ArrowUp size={18} />
+
+              Back To Top
+
+            </button>
+
+          </div>
+
+        </div>
+
+        <hr className="my-6 border-green-600" />
+
+        <p className="text-center text-sm text-green-100">
+
+          © 2026 Product Description AI • All Rights Reserved.
+
         </p>
 
       </div>

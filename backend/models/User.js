@@ -1,9 +1,12 @@
 import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
-    "googleId": {type: String, required: true,unique: true},
-    "name": {type: String, required: true},
-    "email": {type: String, required: true,unique: true},
-    "picture": {type: String, required: true},
-    "timestamps": true
-})
-export default mongoose.model("User", userSchema)
+    name:{type:String,required:true},
+    email:{type:String,required:true,unique:true},
+    password:{type:String},
+    googleId:{type:String,default:null},
+    picture:{type:String,default:null}
+},
+{
+    timestamps:true
+});
+export default mongoose.model("User",userSchema);

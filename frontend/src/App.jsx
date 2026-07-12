@@ -8,11 +8,20 @@ import Generate from "./pages/Generate";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Register from "./pages/Register";
+import OAuthSuccess from "./pages/OAuthSuccess";
 function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   return (
-    <div className={darkMode ? "dark bg-slate-900" : "bg-white"}>
+    <div
+className={
+darkMode
+?
+"dark min-h-screen bg-slate-900"
+:
+"min-h-screen bg-white"
+}
+>
       <BrowserRouter>
         <Routes>
           <Route
@@ -36,22 +45,46 @@ function App() {
           />
 
           <Route
-            path="/generate"
-            element={
-              <ProtectedRoute>
-                   <Generate darkMode={darkMode} setDarkMode={setDarkMode}/>               
-              </ProtectedRoute>  
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                  <Dashboard darkMode={darkMode} setDarkMode={setDarkMode}/>
-              </ProtectedRoute>
-              
-            }
-          />
+
+path="/generate"
+
+element={
+
+<ProtectedRoute>
+
+<Generate
+
+darkMode={darkMode}
+
+setDarkMode={setDarkMode}
+
+/>
+
+</ProtectedRoute>
+
+}
+
+/><Route
+
+path="/dashboard"
+
+element={
+
+<ProtectedRoute>
+
+<Dashboard
+
+darkMode={darkMode}
+
+setDarkMode={setDarkMode}
+
+/>
+
+</ProtectedRoute>
+
+}
+
+/>
 
           <Route
             path="/login"
@@ -71,6 +104,13 @@ function App() {
               />
             }
           />
+          <Route
+
+path="/oauth-success"
+
+element={<OAuthSuccess/>}
+
+/>
         </Routes>
       </BrowserRouter>
     </div>

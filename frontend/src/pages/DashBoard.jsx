@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../services/api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -12,7 +12,7 @@ function Dashboard({ darkMode, setDarkMode }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API = "http://localhost:5000/api/history";
+  const API="/history";
 
   const cardStyle = {
     backgroundColor: darkMode ? "#1e293b" : "white",
@@ -30,95 +30,224 @@ function Dashboard({ darkMode, setDarkMode }) {
     fetchHistory();
   }, []);
 
-  async function fetchHistory() {
-    try {
-      setLoading(true);
-      const res = await axios.get(API);
-      setHistory(res.data.data);
-      setLoading(false);
-      console.log(res.data.data);
-    } catch (err) {
-      setLoading(false);
-      setError("Unable to fetch history.");
-      console.log(err);
-    }
-  }
+ async function fetchHistory(){
 
-  async function handleSearch() {
-    try {
-      if (search.trim() === "") {
-        fetchHistory();
-        return;
-      }
+try{
 
-      setLoading(true);
-      const res = await axios.get(`${API}/search?q=${search}`);
-      setHistory(res.data.data);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-      console.log(err);
-    }
-  }
 
-  const handleDelete = async (_id) => {
-    try {
-      await axios.delete(`${API}/${_id}`);
+setLoading(true);
 
-      setHistory(history.filter((item) => item._id !== _id));
 
-      if (selectedItem?._id === _id) {
-        setSelectedItem(null);
-        setIsModalOpen(false);
-      }
+const res=await api.get(API);
 
-      alert("Deleted successfully.");
-    } catch (error) {
-      console.error(error);
-      alert("Delete failed.");
-    }
-  };
 
-  async function handleView(id) {
-    try {
-      console.log("View clicked:", id);
-      const res = await axios.get(`${API}/${id}`);
-      console.log("Response:", res.data);
-      setSelectedItem(res.data.data);
-      setIsModalOpen(true);
-    } catch (err) {
-      console.error("View Error:", err);
-    }
+setHistory(res.data.data);
+
+
+setLoading(false);
+
+
 }
-  async function handleUpdate(item) {
-    const newDescription = prompt(
-      "Edit description:",
-      item.description
-    );
 
-    if (!newDescription) return;
+catch(err){
 
-    try {
-      await axios.put(`${API}/${item._id}`, {
-        ...item,
-        description: newDescription,
-      });
 
-      fetchHistory();
+setLoading(false);
 
-      if (selectedItem?._id === item._id) {
-        setSelectedItem({
-          ...selectedItem,
-          description: newDescription,
-        });
-      }
+setError("Unable to fetch history.");
 
-      alert("Updated successfully!");
-    } catch (err) {
-      console.error(err);
-      alert("Update failed.");
-    }
-  }
+console.log(err);
+
+
+}
+
+
+}
+
+ async function handleSearch(){
+
+
+try{
+
+
+if(search.trim()===""){
+
+fetchHistory();
+
+return;
+
+}
+
+
+
+setLoading(true);
+
+
+
+const res=await api.get(
+
+`${API}/search?q=${search}`
+
+);
+
+
+
+setHistory(res.data.data);
+
+
+
+setLoading(false);
+
+
+
+}
+
+catch(err){
+
+setLoading(false);
+
+console.log(err);
+
+}
+
+
+}
+
+const handleDelete=async(_id)=>{
+
+
+try{
+
+
+await api.delete(
+
+`${API}/${_id}`
+
+);
+
+
+
+setHistory(
+
+history.filter(
+
+(item)=>item._id!==_id
+
+)
+
+);
+
+
+
+alert("Deleted successfully.");
+
+
+
+}
+
+catch(error){
+
+
+console.log(error);
+
+alert("Delete failed.");
+
+
+}
+
+
+
+};
+
+async function handleView(id){
+
+
+try{
+
+
+const res=await api.get(
+
+`${API}/${id}`
+
+);
+
+
+
+setSelectedItem(res.data.data);
+
+setIsModalOpen(true);
+
+
+
+}
+
+catch(err){
+
+console.log(err);
+
+}
+
+}
+
+async function handleUpdate(item){
+
+
+const newDescription=prompt(
+
+"Edit description:",
+
+item.description
+
+);
+
+
+
+if(!newDescription)return;
+
+
+
+
+try{
+
+
+await api.put(
+
+`${API}/${item._id}`,
+
+{
+
+...item,
+
+description:newDescription
+
+}
+
+);
+
+
+
+fetchHistory();
+
+
+
+alert("Updated successfully!");
+
+
+
+}
+
+catch(err){
+
+
+console.log(err);
+
+alert("Update failed");
+
+
+}
+
+
+}
 
   const closeModal = () => {
     setIsModalOpen(false);

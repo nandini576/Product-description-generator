@@ -7,7 +7,7 @@ function Button({
 }) {
   const sizes = {
     sm: "px-4 py-2 text-sm",
-    md: "px-6 py-3 text-base",
+    md: "px-5 py-2 text-base",
     lg: "px-8 py-4 text-lg",
   };
 
@@ -17,16 +17,17 @@ function Button({
       onClick={onClick}
       className={`
       ${sizes[size]}
-      rounded-full
+      rounded-xl
       bg-[#2E7D32]
       hover:bg-[#1B5E20]
       text-white
-      font-semibold
+      font-medium
       shadow-lg
       hover:shadow-xl
       transition-all
       duration-300
       hover:scale-105
+      text-sm
       ${className}
       `}
     >

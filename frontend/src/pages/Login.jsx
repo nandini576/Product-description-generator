@@ -57,7 +57,7 @@ function Login({ darkMode, setDarkMode }) {
             Login
           </h1>
 
-          <p className="text-center mt-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200">
+          <p className="text-center mt-2 text-xs sm:text-sm font-medium text-black dark:text-gray-200">
             Welcome back! Please enter your details.
           </p>
 

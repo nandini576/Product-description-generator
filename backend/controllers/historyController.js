@@ -9,7 +9,7 @@ export const createHistory = async (req, res, next) => {
         message: "All fields are required",
       });
     }
-    const history = await History.create({productName,category,keyFeatures,description});
+    const history = await History.create({ userId:req.user.id,productName,category,keyFeatures,description});
     res.status(201).json({
       success: true,
       message: "History created successfully",
@@ -21,7 +21,7 @@ export const createHistory = async (req, res, next) => {
 };
 export const getAllHistory = async (req, res, next) => {
   try {
-    const history = await History.find().sort({ createdAt: -1 });
+    const history = await History.find({userId:req.user.id}).sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
       count: history.length,
@@ -33,7 +33,10 @@ export const getAllHistory = async (req, res, next) => {
 };
 export const getHistoryById = async (req, res, next) => {
   try {
-    const history = await History.findById(req.params.id);
+    const history = await History.findOne({
+    _id: req.params.id,
+    userId: req.user.id
+});
     if (!history) {
       return res.status(404).json({
         success: false,
@@ -50,7 +53,10 @@ export const getHistoryById = async (req, res, next) => {
 };
 export const updateHistory = async (req, res, next) => {
   try {
-    const history = await History.findByIdAndUpdate(req.params.id,req.body,
+    const history = await History.findOneAndUpdate({
+    _id:req.params.id,
+    userId:req.user.id
+},req.body,
       {
         new: true,
         runValidators: true,
@@ -73,7 +79,10 @@ export const updateHistory = async (req, res, next) => {
 };
 export const deleteHistory = async (req, res, next) => {
   try {
-    const history = await History.findByIdAndDelete(req.params.id);
+    const history = await History.findOneAndDelete({
+    _id:req.params.id,
+    userId:req.user.id
+});
     if (!history) {
       return res.status(404).json({
         success: false,
@@ -94,6 +103,7 @@ export const searchHistory = async (req, res, next) => {
     const query = req.query.q || "";
 
     const history = await History.find({
+      userId:req.user.id,
       productName: {
         $regex: query,
         $options: "i",

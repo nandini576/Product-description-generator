@@ -1,10 +1,11 @@
 import express from "express";
 import {createHistory,getAllHistory,getHistoryById,updateHistory,deleteHistory,searchHistory} from "../controllers/historyController.js";
+import authMiddleware from "../middlewares/authMiddleware.js"
 const router = express.Router();
-router.get("/", getAllHistory);
-router.get("/search", searchHistory);
-router.get("/:id", getHistoryById);
-router.post("/", createHistory);
-router.put("/:id", updateHistory);
-router.delete("/:id", deleteHistory);
+router.get("/",authMiddleware, getAllHistory);
+router.get("/search",authMiddleware, searchHistory);
+router.get("/:id",authMiddleware, getHistoryById);
+router.post("/",authMiddleware, createHistory);
+router.put("/:id",authMiddleware, updateHistory);
+router.delete("/:id", authMiddleware,deleteHistory);
 export default router;

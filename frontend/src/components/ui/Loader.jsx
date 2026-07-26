@@ -1,15 +1,16 @@
-/**
- * Loader Component
- *
- * Props:
- * - size
- */
+function Loader({ size = "md" }) {
+  const sizeClasses = {
+    sm: "h-5 w-5 border-2",
+    md: "h-8 w-8 border-3",
+    lg: "h-12 w-12 border-4",
+  };
 
-function Loader({ size = 10 }) {
   return (
-    <div
-      className={`animate-spin rounded-full border-4 border-gray-300 border-t-black h-${size} w-${size}`}
-    />
+    <div className="flex justify-center items-center py-4">
+      <div
+        className={`animate-spin rounded-full border-gray-200 border-t-green-600 ${sizeClasses[size]}`}
+      />
+    </div>
   );
 }
 

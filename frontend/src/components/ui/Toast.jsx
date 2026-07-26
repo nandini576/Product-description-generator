@@ -1,11 +1,14 @@
-/**
- * Toast Component
- */
+import toast from "react-hot-toast";
 
-import { toast } from "react-hot-toast";
-
-function showToast(message) {
+export const showSuccessToast = (message) => {
   toast.success(message);
-}
+};
 
-export default showToast;
+export const showErrorToast = (message) => {
+  toast.error(message);
+};
+
+export default {
+  success: showSuccessToast,
+  error: showErrorToast,
+};

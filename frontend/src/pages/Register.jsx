@@ -118,7 +118,7 @@ function Register({ darkMode, setDarkMode }) {
             <GoogleButton />
           </form>
 
-          <p className="text-center mt-6 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+          <p className="text-center mt-6 text-xs sm:text-sm text-black dark:text-gray-300">
             Already have an account?{" "}
             <Link to="/login" className="text-green-700 dark:text-green-400 font-semibold hover:underline">
               Login

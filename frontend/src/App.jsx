@@ -52,7 +52,7 @@ function App() {
               path="/register"
               element={<Register darkMode={darkMode} setDarkMode={setDarkMode} />}
             />
-            <Route path="/oauth-success" element={<OAuthSuccess />} />
+            <Route path="/oauth-success" element={<OAuthSuccess/>} />
           </Routes>
         </BrowserRouter>
       </div>

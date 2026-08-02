@@ -1,10 +1,11 @@
 import { FcGoogle } from "react-icons/fc";
 
 function GoogleButton() {
+  const API =import.meta.env.VITE_API_BASE_URL ||
+  "https://product-description-generator-gt6k.onrender.com/api";
   const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:5000/api/auth/google";
+    window.location.href = `${API}/auth/google`;
   };
-
   return (
     <div className="mt-6">
       <div className="flex items-center gap-3 mb-5">

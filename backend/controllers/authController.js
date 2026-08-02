@@ -82,10 +82,20 @@ export const login = async (req, res) => {
 };
 export const googleSuccess = async (req, res) => {
     try {
-        const token = jwt.sign({ id: req.user._id,email: req.user.email}, process.env.JWT_SECRET,{expiresIn: "7d"});       
-        res.redirect(`http://localhost:5173/oauth-success?token=${token}`); 
-    }
-    catch (err) {
+        const token = jwt.sign(
+            {
+                id: req.user._id,
+                email: req.user.email
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        res.redirect(
+            `${process.env.CLIENT_URL}/oauth-success?token=${token}`
+        );
+
+    } catch (err) {
         res.status(500).json({
             success: false,
             message: err.message

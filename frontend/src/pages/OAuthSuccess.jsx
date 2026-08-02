@@ -6,6 +6,7 @@ function OAuthSuccess() {
   const navigate = useNavigate();
   const { login } = useAuth();
   useEffect(() => {
+    console.log(window.location.href);
     const params = new URLSearchParams(
       window.location.search
     );

@@ -1,10 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
-
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Dashboard from "./pages/Dashboard";
+import DashBoard from "./pages/DashBoard";
 import Generate from "./pages/Generate";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -41,7 +40,7 @@ function App() {
               path="/dashboard"
               element={
                 <ProtectedRoute>
-                  <Dashboard darkMode={darkMode} setDarkMode={setDarkMode} />
+                  <DashBoard darkMode={darkMode} setDarkMode={setDarkMode} />
                 </ProtectedRoute>
               }
             />

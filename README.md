@@ -14,24 +14,8 @@ A full-stack web application that generates AI-powered product descriptions for 
 - Delete descriptions
 - Responsive user interface
 
----
 
-## Tech Stack
 
-### Frontend
-
-- React
-- React Router
-- Tailwind CSS
-- Axios
-
-### Backend
-
-- Node.js
-- Express.js
-- MongoDB Atlas
-- Mongoose
-- CORS
 
 ---
 
@@ -177,6 +161,59 @@ MONGO_URI=your_mongodb_connection_string
 
 An example configuration is provided in **backend/.env.example**.
 
+
+---
+
+
+# Deployment
+
+## Live Frontend URL
+
+https://product-description-generator-2g2n.vercel.app
+
+## Live Backend URL
+
+https://product-description-generator-gt6k.onrender.com
+
+---
+
+# Tech Stack Summary
+
+### Frontend
+- React.js
+- React Router
+- Tailwind CSS
+- Axios
+- React Hot Toast
+
+### Backend
+- Node.js
+- Express.js
+- Passport.js (Google OAuth 2.0)
+- JWT Authentication
+- Express Validator
+- CORS
+
+### Database
+- MongoDB Atlas
+- Mongoose
+
+### AI Integration
+- Google Gemini API (gemini-2.5-flash)
+
+### Deployment
+- Frontend: Vercel
+- Backend: Render
+- Database: MongoDB Atlas
+
+---
+
+# Known Limitations (Free Tier)
+
+- Render free web services automatically spin down after a period of inactivity.
+- The first request after the service has been idle may take **30–60 seconds** while the backend wakes up.
+- If the backend is sleeping, login, Google OAuth, and AI generation may be delayed until the server becomes active.
+- Vercel serves the frontend instantly, but it depends on the backend being awake for API requests.
 
 ---
 

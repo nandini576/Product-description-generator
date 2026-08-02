@@ -27,18 +27,6 @@ function Dashboard({ darkMode, setDarkMode }) {
 
   const API = "/history";
 
-  const cardStyle = {
-    backgroundColor: darkMode ? "#1e293b" : "white",
-    color: darkMode ? "white" : "black",
-    border: darkMode ? "1px solid #334155" : "1px solid #e5e7eb",
-  };
-
-  const inputStyle = {
-    backgroundColor: darkMode ? "#0f172a" : "white",
-    color: darkMode ? "white" : "black",
-    border: darkMode ? "1px solid #334155" : "1px solid #d1d5db",
-  };
-
   useEffect(() => {
     fetchHistory();
   }, []);
@@ -136,16 +124,16 @@ function Dashboard({ darkMode, setDarkMode }) {
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main className="max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-10 min-h-[75vh]">
-        <h1 className="text-2xl md:text-4xl font-bold" style={{ color: darkMode ? "white" : "black" }}>
+        <h1 className="text-2xl md:text-4xl font-extrabold text-slate-900 dark:text-white">
           Dashboard
         </h1>
 
-        <p className="mt-1 mb-6 text-sm" style={{ color: darkMode ? "#cbd5e1" : "#6b7280" }}>
+        <p className="mt-1 mb-6 text-sm font-semibold text-slate-700 dark:text-slate-200">
           Manage your saved product descriptions created using AI.
         </p>
 
         {/* SEARCH BAR */}
-        <div style={cardStyle} className="rounded-2xl p-4 md:p-6 shadow-sm mb-6">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 md:p-6 shadow-sm mb-6">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <input
@@ -154,17 +142,16 @@ function Dashboard({ darkMode, setDarkMode }) {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-                style={inputStyle}
-                className="w-full rounded-xl px-4 py-2 text-sm outline-none transition"
+                className="w-full rounded-xl px-4 py-2.5 text-xs md:text-sm font-semibold bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 outline-none transition"
               />
             </div>
 
             <div className="flex gap-2">
               <button
                 onClick={handleSearch}
-                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 text-xs md:text-sm font-medium rounded-xl border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition cursor-pointer"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs md:text-sm font-bold rounded-xl bg-green-600 hover:bg-green-700 text-white active:scale-95 transition cursor-pointer shadow-sm"
               >
-                <Search size={14} />
+                <Search size={15} />
                 Search
               </button>
 
@@ -173,9 +160,9 @@ function Dashboard({ darkMode, setDarkMode }) {
                   setSearch("");
                   fetchHistory();
                 }}
-                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2 text-xs md:text-sm font-medium rounded-xl border border-gray-300 dark:border-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800 active:scale-95 transition cursor-pointer"
+                className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 py-2.5 text-xs md:text-sm font-bold rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 active:scale-95 transition cursor-pointer shadow-sm"
               >
-                <RotateCw size={14} />
+                <RotateCw size={15} />
                 Refresh
               </button>
             </div>
@@ -183,11 +170,11 @@ function Dashboard({ darkMode, setDarkMode }) {
         </div>
 
         {/* TABLE CONTENT */}
-        <div style={cardStyle} className="rounded-2xl p-4 md:p-6 shadow-sm overflow-hidden">
+        <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 md:p-6 shadow-sm overflow-hidden">
           {loading ? (
             <Loader size="md" />
           ) : error ? (
-            <div className="text-center text-red-500 py-8 text-sm">{error}</div>
+            <div className="text-center text-red-600 font-bold py-8 text-sm">{error}</div>
           ) : history.length === 0 ? (
             <EmptyState
               title={search ? "No matching descriptions" : "No history available"}
@@ -197,46 +184,52 @@ function Dashboard({ darkMode, setDarkMode }) {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs md:text-sm">
                 <thead>
-                  <tr className="border-b border-gray-200 dark:border-slate-700 text-gray-500 dark:text-gray-400">
-                    <th className="py-3 px-2 font-semibold">Product</th>
-                    <th className="py-3 px-2 font-semibold hidden sm:table-cell">Category</th>
-                    <th className="py-3 px-2 font-semibold hidden md:table-cell">Features</th>
-                    <th className="py-3 px-2 font-semibold text-right">Actions</th>
+                  <tr className="border-b border-slate-300 dark:border-slate-700">
+                    <th className="py-3.5 px-3 font-bold text-slate-900 dark:text-white">Product</th>
+                    <th className="py-3.5 px-3 font-bold hidden sm:table-cell text-slate-900 dark:text-white">Category</th>
+                    <th className="py-3.5 px-3 font-bold hidden md:table-cell text-slate-900 dark:text-white">Features</th>
+                    <th className="py-3.5 px-3 font-bold text-right text-slate-900 dark:text-white">Actions</th>
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-gray-100 dark:divide-slate-800">
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                   {history.map((item) => (
-                    <tr key={item._id} className="hover:bg-gray-50/50 dark:hover:bg-slate-800/50 transition">
-                      <td className="py-3.5 px-2 font-medium text-gray-900 dark:text-white">
+                    <tr key={item._id} className="hover:bg-slate-50 dark:hover:bg-slate-700/50 transition">
+                      {/* Product Name */}
+                      <td className="py-4 px-3 font-bold text-slate-900 dark:text-white">
                         {item.productName}
-                        <div className="sm:hidden text-[10px] text-gray-400 mt-0.5">{item.category}</div>
+                        <div className="sm:hidden text-[11px] text-slate-600 dark:text-slate-300 font-normal mt-0.5">{item.category}</div>
                       </td>
-                      <td className="py-3.5 px-2 hidden sm:table-cell text-gray-600 dark:text-gray-300">
+
+                      {/* Category */}
+                      <td className="py-4 px-3 hidden sm:table-cell text-slate-800 dark:text-slate-100 font-bold">
                         {item.category}
                       </td>
-                      <td className="py-3.5 px-2 hidden md:table-cell text-gray-500 dark:text-gray-400 max-w-xs truncate">
+
+                      {/* Key Features */}
+                      <td className="py-4 px-3 hidden md:table-cell text-slate-800 dark:text-slate-200 max-w-xs truncate font-medium">
                         {Array.isArray(item.keyFeatures)
                           ? item.keyFeatures.join(", ")
                           : item.keyFeatures}
                       </td>
 
-                      <td className="py-3.5 px-2 text-right">
-                        <div className="flex items-center justify-end gap-1.5">
+                      {/* Actions */}
+                      <td className="py-4 px-3 text-right">
+                        <div className="flex items-center justify-end gap-2">
                           <button
                             onClick={() => handleView(item._id)}
-                            className="p-1.5 rounded-lg border border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/20 active:scale-95 transition"
+                            className="p-2 rounded-lg border border-green-600 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-600 hover:text-white active:scale-95 transition cursor-pointer"
                             title="View Details"
                           >
-                            <Eye size={14} />
+                            <Eye size={15} />
                           </button>
 
                           <button
                             onClick={() => openEditModal(item)}
-                            className="p-1.5 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 active:scale-95 transition"
+                            className="p-2 rounded-lg border border-blue-600 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-600 hover:text-white active:scale-95 transition cursor-pointer"
                             title="Edit"
                           >
-                            <Edit size={14} />
+                            <Edit size={15} />
                           </button>
 
                           <button
@@ -244,10 +237,10 @@ function Dashboard({ darkMode, setDarkMode }) {
                               setDeleteId(item._id);
                               setIsDeleteModalOpen(true);
                             }}
-                            className="p-1.5 rounded-lg border border-red-600 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 active:scale-95 transition"
+                            className="p-2 rounded-lg border border-red-600 bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-600 hover:text-white active:scale-95 transition cursor-pointer"
                             title="Delete"
                           >
-                            <Trash2 size={14} />
+                            <Trash2 size={15} />
                           </button>
                         </div>
                       </td>
@@ -266,29 +259,29 @@ function Dashboard({ darkMode, setDarkMode }) {
           title="Product Description Details"
         >
           {selectedItem && (
-            <div className="space-y-4 text-xs md:text-sm">
+            <div className="space-y-4 text-xs md:text-sm text-slate-900 dark:text-white">
               <div>
-                <span className="font-semibold text-gray-500 dark:text-gray-400 block text-xs">Product Name</span>
-                <p className="font-medium text-base text-gray-900 dark:text-white">{selectedItem.productName}</p>
+                <span className="font-bold text-slate-700 dark:text-slate-300 block text-xs">Product Name</span>
+                <p className="font-bold text-base text-slate-900 dark:text-white">{selectedItem.productName}</p>
               </div>
 
               <div>
-                <span className="font-semibold text-gray-500 dark:text-gray-400 block text-xs">Category</span>
-                <p className="text-gray-700 dark:text-gray-300">{selectedItem.category}</p>
+                <span className="font-bold text-slate-700 dark:text-slate-300 block text-xs">Category</span>
+                <p className="text-slate-900 dark:text-white font-bold">{selectedItem.category}</p>
               </div>
 
               <div>
-                <span className="font-semibold text-gray-500 dark:text-gray-400 block text-xs">Features</span>
-                <p className="text-gray-700 dark:text-gray-300">
+                <span className="font-bold text-slate-700 dark:text-slate-300 block text-xs">Features</span>
+                <p className="text-slate-900 dark:text-white font-bold">
                   {Array.isArray(selectedItem.keyFeatures)
                     ? selectedItem.keyFeatures.join(", ")
                     : selectedItem.keyFeatures}
                 </p>
               </div>
 
-              <div className="pt-2 border-t border-gray-200 dark:border-slate-700">
-                <span className="font-semibold text-gray-500 dark:text-gray-400 block text-xs mb-1">Generated Description</span>
-                <div className="bg-gray-50 dark:bg-slate-900 p-4 rounded-xl leading-relaxed whitespace-pre-line text-gray-800 dark:text-gray-200">
+              <div className="pt-2 border-t border-slate-300 dark:border-slate-700">
+                <span className="font-bold text-slate-700 dark:text-slate-300 block text-xs mb-1">Generated Description</span>
+                <div className="bg-slate-100 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 p-4 rounded-xl leading-relaxed whitespace-pre-line text-slate-900 dark:text-white font-bold">
                   {selectedItem.description}
                 </div>
               </div>
@@ -304,12 +297,12 @@ function Dashboard({ darkMode, setDarkMode }) {
         >
           <form onSubmit={handleUpdateSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Description</label>
+              <label className="block text-xs font-bold text-slate-900 dark:text-white mb-1">Description</label>
               <textarea
                 rows={6}
                 value={editDescription}
                 onChange={(e) => setEditDescription(e.target.value)}
-                className="w-full rounded-xl p-3 text-xs md:text-sm border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-green-600 resize-none"
+                className="w-full rounded-xl p-3 text-xs md:text-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-green-600 resize-none font-semibold"
               />
             </div>
 
@@ -317,14 +310,14 @@ function Dashboard({ darkMode, setDarkMode }) {
               <button
                 type="button"
                 onClick={() => setIsEditModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs md:text-sm font-medium border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 transition"
+                className="px-4 py-2 rounded-xl text-xs md:text-sm font-bold border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={updating}
-                className="px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-green-600 hover:bg-green-700 text-white transition disabled:opacity-50"
+                className="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-green-600 hover:bg-green-700 text-white transition disabled:opacity-50"
               >
                 {updating ? "Saving..." : "Save Changes"}
               </button>
@@ -339,7 +332,7 @@ function Dashboard({ darkMode, setDarkMode }) {
           title="Confirm Delete"
         >
           <div className="space-y-4">
-            <p className="text-xs md:text-sm text-gray-600 dark:text-gray-300">
+            <p className="text-xs md:text-sm text-slate-900 dark:text-white font-bold">
               Are you sure you want to delete this description? This action cannot be undone.
             </p>
 
@@ -347,14 +340,14 @@ function Dashboard({ darkMode, setDarkMode }) {
               <button
                 type="button"
                 onClick={() => setIsDeleteModalOpen(false)}
-                className="px-4 py-2 rounded-xl text-xs md:text-sm font-medium border border-gray-300 dark:border-slate-700 hover:bg-gray-100 dark:hover:bg-slate-700 transition"
+                className="px-4 py-2 rounded-xl text-xs md:text-sm font-bold border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-900 dark:text-white transition"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={confirmDelete}
-                className="px-4 py-2 rounded-xl text-xs md:text-sm font-medium bg-red-600 hover:bg-red-700 text-white transition"
+                className="px-4 py-2 rounded-xl text-xs md:text-sm font-bold bg-red-600 hover:bg-red-700 text-white transition"
               >
                 Delete
               </button>

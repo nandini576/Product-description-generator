@@ -17,7 +17,7 @@ function App() {
 
   return (
     <ErrorBoundary>
-      <div className={darkMode ? "dark min-h-screen bg-slate-900 text-white" : "min-h-screen bg-white text-gray-900"}>
+      <div className={darkMode ? "dark min-h-screen bg-slate-900 text-white" : "min-h-screen bg-[#FAF8F3] text-slate-900"}>
         <Toaster position="top-right" reverseOrder={false} />
         <BrowserRouter>
           <Routes>

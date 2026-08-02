@@ -60,12 +60,12 @@ function Register({ darkMode, setDarkMode }) {
       <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
 
       <main className={`min-h-[80vh] flex items-center justify-center px-4 py-12 ${darkMode ? "bg-[#16231A]" : "bg-[#FAF8F3]"}`}>
-        <div className={`w-full max-w-md rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 ${darkMode ? "bg-[#243127] text-white" : "bg-white text-gray-900"}`}>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-green-700 dark:text-green-400">
+        <div className={`w-full max-w-md rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 ${darkMode ? "bg-[#243127] text-white" : "bg-white text-black"}`}>
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center text-green-700 dark:text-green-400">
             Create Account
           </h1>
 
-          <p className="text-center mt-2 text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-200">
+          <p className="text-center mt-2 text-xs sm:text-sm font-bold text-black dark:text-white">
             Join Product Description AI today
           </p>
 
@@ -76,7 +76,7 @@ function Register({ darkMode, setDarkMode }) {
               placeholder="Full Name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm font-bold border border-black dark:border-slate-600 bg-white dark:bg-slate-800 text-black dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600"
             />
 
             <input
@@ -85,7 +85,7 @@ function Register({ darkMode, setDarkMode }) {
               placeholder="Email Address"
               value={formData.email}
               onChange={handleChange}
-              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm font-bold border border-black dark:border-slate-600 bg-white dark:bg-slate-800 text-black dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600"
             />
 
             <input
@@ -94,7 +94,7 @@ function Register({ darkMode, setDarkMode }) {
               placeholder="Password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm font-bold border border-black dark:border-slate-600 bg-white dark:bg-slate-800 text-black dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600"
             />
 
             <input
@@ -103,12 +103,12 @@ function Register({ darkMode, setDarkMode }) {
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
-              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-green-600"
+              className="w-full rounded-xl px-4 py-3 text-xs md:text-sm font-bold border border-black dark:border-slate-600 bg-white dark:bg-slate-800 text-black dark:text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-green-600"
             />
 
             <Button
               type="submit"
-              className="w-full mt-2"
+              className="w-full mt-2 font-bold"
               size="md"
               disabled={loading}
             >
@@ -118,9 +118,9 @@ function Register({ darkMode, setDarkMode }) {
             <GoogleButton />
           </form>
 
-          <p className="text-center mt-6 text-xs sm:text-sm text-black dark:text-gray-300">
+          <p className="text-center mt-6 text-xs sm:text-sm font-bold text-black dark:text-white">
             Already have an account?{" "}
-            <Link to="/login" className="text-green-700 dark:text-green-400 font-semibold hover:underline">
+            <Link to="/login" className="text-green-700 dark:text-green-400 font-extrabold hover:underline">
               Login
             </Link>
           </p>
